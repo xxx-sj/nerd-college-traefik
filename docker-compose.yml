@@ -1,0 +1,24 @@
+version: "3"
+
+volumes:
+  vol_traefik: {}
+
+services:
+  traefik:
+    build:
+      context: .
+      dockerfile: ./traefik/Dockerfile
+    image: landing_traefik
+    volumes:
+      - vol_traefik:/etc/traefik/acme
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
+    networks:
+      - nerd-college-network
+
+networks:
+  nerd-college-network:
+    driver: bridge
+    external: true
